@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# old admin note:
+# second keyword piece = source
+# combine it with the script clue
