@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Challenge</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="background-grid"></div>
+
+  <main class="container">
+    <section class="card hero">
+      <p class="tag">FGCU CYBERSECURITY EVENT PORTAL</p>
+      <h1>FGCU Cyber Workshop</h1>
+      <p class="subtitle">
+        Welcome to the official student workshop page. Registration is closed,
+        but some archived materials may still remain on the server.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Challenge Overview</h2>
+      <p>This mini CTF contains 5 linked beginner web challenges:</p>
+      <ol>
+        <li>Find the hidden archived page.</li>
+        <li>Use that page to find another clue.</li>
+        <li>Combine the clues to build the final flag.</li>
+      </ol>
+      <p>
+        Flag format: <strong>FLAG{answer_here}</strong>
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Challenge 1</h2>
+      <p>
+        Start by investigating this page carefully. In real web CTFs, important
+        clues are often hidden somewhere a normal visitor would not immediately see.
+      </p>
+      <p class="hint">Hint: Try inspecting the page source.</p>
+    </section>
+
+    <section class="card">
+      <h2>Submit Final Flag</h2>
+      <div class="submit-row">
+        <input id="flagInput" type="text" placeholder="FLAG{your_answer_here}" />
+        <button onclick="checkFlag()">Submit</button>
+      </div>
+      <p id="resultMessage" class="result"></p>
+    </section>
+
+    <section class="card">
+      <a href="index.html" class="back-link">← Back to challenges</a>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+
+  <!-- Archived workshop page moved to old_schedule.html -->
+</body>
+</html>

@@ -3,56 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FGCU Cyber Workshop</title>
+  <title>FGCU CTF Challenges</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+    .challenge-card {
+      background: rgba(14, 27, 46, 0.95);
+      border: 1px solid #1d3a5f;
+      border-radius: 14px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: border-color 0.2s;
+    }
+    .challenge-card:hover {
+      border-color: #1f6feb;
+    }
+    .challenge-card.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    .challenge-card h3 {
+      margin: 10px 0 8px;
+      color: #8dc4ff;
+    }
+    .challenge-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #bdd2e8;
+      line-height: 1.5;
+    }
+    .soon {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      background: #1d3a5f;
+      color: #8dc4ff;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
   <div class="background-grid"></div>
 
   <main class="container">
     <section class="card hero">
-      <p class="tag">FGCU CYBERSECURITY EVENT PORTAL</p>
-      <h1>FGCU Cyber Workshop</h1>
+      <p class="tag">FGCU CYBERSECURITY WORKSHOP</p>
+      <h1>CTF Challenges</h1>
       <p class="subtitle">
-        Welcome to the official student workshop page. Registration is closed,
-        but some archived materials may still remain on the server.
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>Challenge Overview</h2>
-      <p>This mini CTF contains 5 linked beginner web challenges:</p>
-      <ol>
-        <li>Find the hidden archived page.</li>
-        <li>Use that page to find another clue.</li>
-        <li>Combine the clues to build the final flag.</li>
-      </ol>
-      <p>
+        Pick a category and find the flag. Each challenge is separate.
         Flag format: <strong>FLAG{answer_here}</strong>
       </p>
     </section>
 
-    <section class="card">
-      <h2>Challenge 1</h2>
-      <p>
-        Start by investigating this page carefully. In real web CTFs, important
-        clues are often hidden somewhere a normal visitor would not immediately see.
-      </p>
-      <p class="hint">Hint: Try inspecting the page source.</p>
-    </section>
+    <div class="challenge-grid">
+      <a href="web.html" class="challenge-card">
+        <p class="tag">WEB</p>
+        <h3>Web / HTML Source</h3>
+        <p>Find hidden flags in page source, HTTP files, and HTML metadata.</p>
+      </a>
 
-    <section class="card">
-      <h2>Submit Final Flag</h2>
-      <div class="submit-row">
-        <input id="flagInput" type="text" placeholder="FLAG{your_answer_here}" />
-        <button onclick="checkFlag()">Submit</button>
+      <a href="crypto.html" class="challenge-card">
+        <p class="tag">CRYPTO</p>
+        <h3>Cryptography</h3>
+        <p>Decode an intercepted message. Two layers.</p>
+      </a>
+
+      <div class="challenge-card disabled">
+        <p class="tag">STEGO</p>
+        <h3>Steganography</h3>
+        <p>Find a flag hidden inside an image file.</p>
+        <span class="soon">COMING SOON</span>
       </div>
-      <p id="resultMessage" class="result"></p>
-    </section>
+    </div>
   </main>
-
-  <script src="script.js"></script>
-
-  <!-- Archived workshop page moved to old_schedule.html -->
 </body>
 </html>
