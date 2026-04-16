@@ -43,7 +43,7 @@
 
     <section class="card">
       <p>use the terminal below to poke around. look for open ports.</p>
-      <p class="hint" style="margin-top:10px;">hint: nmap takes a target. try <code>nmap 10.0.0.1</code> then connect to anything that looks odd.</p>
+      <p class="hint" style="margin-top:10px;">hint: check your network interfaces first. then scan whatever you find.</p>
     </section>
 
     <section class="card">
@@ -90,6 +90,7 @@
 
     function run(input) {
       if (input === "help") {
+        print("  ip addr         show network interfaces");
         print("  nmap <ip>       scan for open ports");
         print("  nc <ip> <port>  connect to a port");
         print("  clear           clear the terminal");
@@ -97,6 +98,14 @@
       }
       if (input === "clear") {
         out.innerHTML = "";
+        return;
+      }
+      if (input === "ip addr" || input === "ifconfig") {
+        print("1: lo: <LOOPBACK>");
+        print("   inet 127.0.0.1/8");
+        print("2: eth0: <BROADCAST,MULTICAST,UP>");
+        print("   inet 10.0.0.5/24  brd 10.0.0.255");
+        print("   gateway 10.0.0.1");
         return;
       }
       if (input === "nmap 10.0.0.1") {
@@ -119,7 +128,7 @@
         return;
       }
       if (input.startsWith("nmap")) {
-        print("nmap: host seems down. try 10.0.0.1");
+        print("nmap: host seems down. check your interfaces first.");
         return;
       }
       print("command not found: " + input);
