@@ -24,8 +24,30 @@
     </section>
 
     <section class="card">
+      <div class="submit-row">
+        <input id="cryptoInput" type="text" placeholder="FLAG{your_answer_here}" />
+        <button onclick="checkCryptoFlag()">Submit</button>
+      </div>
+      <p id="cryptoResult" class="result"></p>
+    </section>
+
+    <section class="card">
       <a href="index.html" class="back-link">← Back to main page</a>
     </section>
   </main>
+
+  <script>
+    function checkCryptoFlag() {
+      const input = document.getElementById("cryptoInput").value.trim();
+      const result = document.getElementById("cryptoResult");
+      if (input === "FLAG{r0t13_m4st3r}") {
+        result.textContent = "Correct! You decoded it.";
+        result.style.color = "lightgreen";
+      } else {
+        result.textContent = "Not quite. Keep trying.";
+        result.style.color = "salmon";
+      }
+    }
+  </script>
 </body>
 </html>
