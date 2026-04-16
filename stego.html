@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Steganography Challenge</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="background-grid"></div>
+
+  <main class="container">
+    <section class="card hero">
+      <p class="tag">STEGANOGRAPHY CHALLENGE</p>
+      <h1>something's hiding in here</h1>
+      <p class="subtitle">
+        this image was found on the server. looks normal. probably isn't.
+      </p>
+    </section>
+
+    <section class="card">
+      <img src="fgcu_logo.png" alt="FGCU Logo" style="max-width: 100%; border-radius: 8px;" />
+    </section>
+
+    <section class="card">
+      <p>flags can be hidden inside image files without changing how they look. this technique is called steganography.</p>
+      <p style="margin-top: 12px;" class="hint">hint: look at the least significant bits.</p>
+    </section>
+
+    <section class="card">
+      <div class="submit-row">
+        <input id="stegoInput" type="text" placeholder="FLAG{your_answer_here}" />
+        <button onclick="checkStegoFlag()">Submit</button>
+      </div>
+      <p id="stegoResult" class="result"></p>
+    </section>
+
+    <section class="card">
+      <a href="index.html" class="back-link">← Back to challenges</a>
+    </section>
+  </main>
+
+  <script>
+    async function checkStegoFlag() {
+      const input = document.getElementById("stegoInput").value.trim();
+      const result = document.getElementById("stegoResult");
+      const hash = await sha256(input);
+      const correctHash = "7c39c80ef9e9c9557b546dd8fcb7fc51028cfa52cecf43cb15ff1ad32f5b4264";
+      if (hash === correctHash) {
+        result.textContent = "Correct! You found the hidden flag.";
+        result.style.color = "lightgreen";
+      } else {
+        result.textContent = "Not quite. Keep digging.";
+        result.style.color = "salmon";
+      }
+    }
+
+    async function sha256(str) {
+      const buf = new TextEncoder().encode(str);
+      const hashBuf = await crypto.subtle.digest("SHA-256", buf);
+      return Array.from(new Uint8Array(hashBuf))
+        .map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+  </script>
+</body>
+</html>
