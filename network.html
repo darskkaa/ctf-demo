@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network Challenge</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .terminal {
+      background: #0a0a0a;
+      border: 1px solid #1d3a5f;
+      border-radius: 10px;
+      padding: 20px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #00ff41;
+      min-height: 260px;
+    }
+    .terminal .line { margin: 2px 0; white-space: pre-wrap; word-break: break-all; }
+    .terminal .dim { color: #555; }
+    .input-row { display: flex; align-items: center; margin-top: 10px; gap: 6px; }
+    .input-row span { color: #00ff41; font-family: monospace; white-space: nowrap; }
+    .input-row input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #00ff41;
+      font-family: monospace;
+      font-size: 0.9rem;
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-grid"></div>
+
+  <main class="container">
+    <section class="card hero">
+      <p class="tag">NETWORK CHALLENGE</p>
+      <h1>something's listening</h1>
+      <p class="subtitle">got access to a terminal on the network. no idea what's running.</p>
+    </section>
+
+    <section class="card">
+      <p>use the terminal below to poke around. look for open ports.</p>
+      <p class="hint" style="margin-top:10px;">hint: try scanning 10.0.0.1 and then connect to whatever looks interesting.</p>
+    </section>
+
+    <section class="card">
+      <div class="terminal" id="output"></div>
+      <div class="input-row">
+        <span>user@ctf:~$</span>
+        <input id="cmd" type="text" autocomplete="off" spellcheck="false" placeholder="type a command..." />
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="submit-row">
+        <input id="netInput" type="text" placeholder="FLAG{your_answer_here}" />
+        <button onclick="checkNetFlag()">Submit</button>
+      </div>
+      <p id="netResult" class="result"></p>
+    </section>
+
+    <section class="card">
+      <a href="index.html" class="back-link">← Back to challenges</a>
+    </section>
+  </main>
+
+  <script>
+    const out = document.getElementById("output");
+    const cmd = document.getElementById("cmd");
+
+    function print(text, dim) {
+      const d = document.createElement("div");
+      d.className = "line" + (dim ? " dim" : "");
+      d.textContent = text;
+      out.appendChild(d);
+    }
+
+    print("terminal ready. type 'help' for commands.", true);
+
+    cmd.addEventListener("keydown", function(e) {
+      if (e.key !== "Enter") return;
+      const val = cmd.value.trim();
+      cmd.value = "";
+      print("user@ctf:~$ " + val);
+      run(val.toLowerCase());
+    });
+
+    function run(input) {
+      if (input === "help") {
+        print("  nmap <ip>       scan for open ports");
+        print("  nc <ip> <port>  connect to a port");
+        print("  clear           clear the terminal");
+        return;
+      }
+      if (input === "clear") {
+        out.innerHTML = "";
+        return;
+      }
+      if (input === "nmap 10.0.0.1") {
+        print("Starting Nmap scan on 10.0.0.1 ...");
+        setTimeout(() => {
+          print("PORT     STATE  SERVICE");
+          print("22/tcp   open   ssh");
+          print("80/tcp   open   http");
+          print("1337/tcp open   ???");
+          print("Nmap done. 3 ports open.");
+        }, 800);
+        return;
+      }
+      if (input === "nc 10.0.0.1 1337") {
+        print("Connecting to 10.0.0.1:1337 ...");
+        setTimeout(() => {
+          print("FLAG{p0rt_kn0ck3r}");
+          print("Connection closed.", true);
+        }, 600);
+        return;
+      }
+      if (input.startsWith("nmap")) {
+        print("nmap: host seems down. try 10.0.0.1");
+        return;
+      }
+      print("command not found: " + input);
+    }
+
+    async function checkNetFlag() {
+      const input = document.getElementById("netInput").value.trim();
+      const result = document.getElementById("netResult");
+      const hash = await sha256(input);
+      const correct = "5cd99f0a1280fb83d82eef87b76b8a2e6df47533162a9170f032b431b994bc62";
+      if (hash === correct) {
+        result.textContent = "Correct! You found the open port.";
+        result.style.color = "lightgreen";
+      } else {
+        result.textContent = "Not quite. Keep scanning.";
+        result.style.color = "salmon";
+      }
+    }
+
+    async function sha256(str) {
+      const buf = new TextEncoder().encode(str);
+      const hashBuf = await crypto.subtle.digest("SHA-256", buf);
+      return Array.from(new Uint8Array(hashBuf))
+        .map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+  </script>
+</body>
+</html>
