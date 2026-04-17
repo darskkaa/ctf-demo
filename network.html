@@ -37,12 +37,12 @@
     <section class="card hero">
       <p class="tag">NETWORK CHALLENGE</p>
       <h1>something's listening</h1>
-      <p class="subtitle">got access to a terminal. no idea what's on the network.</p>
+      <p class="subtitle">got shell access. something's running on this network.</p>
     </section>
 
     <section class="card">
-      <p>poke around. find open ports.</p>
-      <p class="hint" style="margin-top:10px;">hint: check your network interfaces first. scan the gateway. then try connecting to anything weird with nc.</p>
+      <p>find it.</p>
+      <p class="hint" style="margin-top:10px;">hint: figure out where you are, then look for open ports.</p>
     </section>
 
     <section class="card">
@@ -80,33 +80,48 @@
       t.innerHTML += "<p>user@ctf:~$ " + cmd + "</p>";
 
       if (cmd == "help") {
-        t.innerHTML += "<p>&nbsp; ip addr &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; show network info</p>";
-        t.innerHTML += "<p>&nbsp; nmap &lt;ip&gt; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scan for open ports</p>";
-        t.innerHTML += "<p>&nbsp; nc &lt;ip&gt; &lt;port&gt; &nbsp;&nbsp; connect to a port</p>";
-        t.innerHTML += "<p>&nbsp; clear &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; clear the screen</p>";
+        t.innerHTML += "<p>  ip addr              show network info</p>";
+        t.innerHTML += "<p>  nmap &lt;ip&gt;            scan for open ports</p>";
+        t.innerHTML += "<p>  nc &lt;ip&gt; &lt;port&gt;       connect to a port</p>";
+        t.innerHTML += "<p>  clear                clear the screen</p>";
+
       } else if (cmd == "clear") {
         t.innerHTML = "";
+
       } else if (cmd == "ip addr" || cmd == "ifconfig") {
-        t.innerHTML += "<p>1: lo &nbsp;&nbsp; inet 127.0.0.1/8</p>";
-        t.innerHTML += "<p>2: eth0 &nbsp; inet 10.0.0.5/24</p>";
-        t.innerHTML += "<p>&nbsp;&nbsp; gateway 10.0.0.1</p>";
+        t.innerHTML += "<p>1: lo    inet 127.0.0.1/8</p>";
+        t.innerHTML += "<p>2: eth0  inet 10.0.0.5/24</p>";
+        t.innerHTML += "<p>         gateway 10.0.0.1</p>";
+
       } else if (cmd == "nmap 10.0.0.1") {
-        t.innerHTML += "<p>Starting scan on 10.0.0.1...</p>";
+        t.innerHTML += "<p>scanning...</p>";
         setTimeout(function() {
-          t.innerHTML += "<p>PORT &nbsp;&nbsp;&nbsp;&nbsp; STATE &nbsp; SERVICE</p>";
-          t.innerHTML += "<p>22/tcp &nbsp;&nbsp; open &nbsp;&nbsp; ssh</p>";
-          t.innerHTML += "<p>80/tcp &nbsp;&nbsp; open &nbsp;&nbsp; http</p>";
-          t.innerHTML += "<p>1337/tcp open &nbsp;&nbsp; ???</p>";
-          t.innerHTML += "<p>done. 3 ports open.</p>";
-        }, 800);
-      } else if (cmd == "nc 10.0.0.1 1337") {
-        t.innerHTML += "<p>connecting...</p>";
-        setTimeout(function() {
-          t.innerHTML += "<p>FLAG{p0rt_kn0ck3r}</p>";
-          t.innerHTML += "<p>connection closed.</p>";
-        }, 600);
+          t.innerHTML += "<p>PORT      STATE   SERVICE</p>";
+          t.innerHTML += "<p>21/tcp    closed  ftp</p>";
+          t.innerHTML += "<p>23/tcp    closed  telnet</p>";
+          t.innerHTML += "<p>25/tcp    closed  smtp</p>";
+          t.innerHTML += "<p>443/tcp   closed  https</p>";
+          t.innerHTML += "<p>1337/tcp  open    ???</p>";
+          t.innerHTML += "<p>3306/tcp  closed  mysql</p>";
+          t.innerHTML += "<p>8080/tcp  closed  http-alt</p>";
+          t.innerHTML += "<p>done.</p>";
+        }, 900);
+
+      } else if (cmd.startsWith("nc 10.0.0.1")) {
+        var port = cmd.split(" ")[2];
+        if (port == "1337") {
+          t.innerHTML += "<p>connecting...</p>";
+          setTimeout(function() {
+            t.innerHTML += "<p>FLAG{p0rt_kn0ck3r}</p>";
+            t.innerHTML += "<p>connection closed.</p>";
+          }, 600);
+        } else {
+          t.innerHTML += "<p>connect failed: port " + port + " refused</p>";
+        }
+
       } else if (cmd.startsWith("nmap")) {
-        t.innerHTML += "<p>host down. check your interfaces first.</p>";
+        t.innerHTML += "<p>host unreachable.</p>";
+
       } else {
         t.innerHTML += "<p>command not found: " + cmd + "</p>";
       }
