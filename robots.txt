@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /crypto.html
-
-# old admin note:
-# second keyword piece = source
-# combine it with the script clue
