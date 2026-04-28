@@ -20,9 +20,10 @@
       <p>find it.</p>
       <p style="margin-top:14px;color:#8dc4ff;">hints</p>
       <ul style="margin:8px 0 0 0;padding-left:20px;line-height:2;">
-        <li>you have shell access. something is running locally.</li>
-        <li>scan the machine you're on: <code style="color:#00ff41;">nmap localhost</code></li>
-        <li>once you find an open port, connect to it: <code style="color:#00ff41;">nc localhost &lt;port&gt;</code></li>
+        <li>run <code style="color:#00ff41;">nmap localhost</code> to see what ports are open.</li>
+        <li>connect to any open port with <code style="color:#00ff41;">nc localhost &lt;port&gt;</code>. it might ask for something.</li>
+        <li>if it asks for a token, look around. try <code style="color:#00ff41;">ls /home</code> and <code style="color:#00ff41;">ls /etc</code>.</li>
+        <li><code style="color:#00ff41;">cat</code> any files that look interesting.</li>
       </ul>
     </section>
 
