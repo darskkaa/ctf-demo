@@ -18,11 +18,16 @@
 
     <section class="card">
       <p>find it.</p>
-      <p class="hint" style="margin-top:10px;">hint: figure out where you are, then look for open ports.</p>
+      <p style="margin-top:14px;color:#8dc4ff;">hints</p>
+      <ul style="margin:8px 0 0 0;padding-left:20px;line-height:2;">
+        <li>you have shell access. start by figuring out what machine you're on.</li>
+        <li>something is listening on a port — scan the local machine.</li>
+        <li><code style="color:#00ff41;">nmap</code> can scan any host, including the one you're already on.</li>
+        <li>once you find an open port, connect to it with <code style="color:#00ff41;">nc</code>.</li>
+      </ul>
     </section>
 
     <section class="card" id="vm-card" style="min-height:180px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
-      <p style="margin:0;color:#8dc4ff;font-family:monospace;">machine is offline</p>
       <button onclick="bootVM()" id="vm-btn" style="background:#12345a;color:#8dc4ff;border:1px solid #1d3a5f;border-radius:8px;padding:12px 28px;font-family:monospace;font-size:1rem;cursor:pointer;letter-spacing:1px;">▶ Start Kali VM</button>
       <p id="vm-status" style="display:none;margin:0;color:#00ff41;font-family:monospace;font-size:0.85rem;">booting kali linux... (~20 seconds)</p>
       <div id="vm-frame" style="width:100%;display:none;"></div>
