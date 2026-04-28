@@ -28,6 +28,7 @@
     </section>
 
     <section class="card" id="vm-card" style="min-height:180px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
+      <p style="margin:0;font-family:monospace;font-size:0.8rem;"><span id="vm-dot" style="color:#ff4444;">●</span> <span id="vm-label" style="color:#aaa;">offline</span></p>
       <button onclick="bootVM()" id="vm-btn" style="background:#12345a;color:#8dc4ff;border:1px solid #1d3a5f;border-radius:8px;padding:12px 28px;font-family:monospace;font-size:1rem;cursor:pointer;letter-spacing:1px;">▶ Start Kali VM</button>
       <p id="vm-status" style="display:none;margin:0;color:#00ff41;font-family:monospace;font-size:0.85rem;">booting kali linux... (~20 seconds)</p>
       <div id="vm-frame" style="width:100%;display:none;"></div>
@@ -37,6 +38,9 @@
       function bootVM() {
         document.getElementById('vm-btn').style.display = 'none';
         document.getElementById('vm-status').style.display = 'block';
+        document.getElementById('vm-dot').style.color = '#00ff41';
+        document.getElementById('vm-label').textContent = 'online';
+        document.getElementById('vm-label').style.color = '#00ff41';
         document.getElementById('vm-card').style.minHeight = '560px';
 
         var iframe = document.createElement('iframe');
