@@ -5,30 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Network Challenge</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    #terminal {
-      background: #0a0a0a;
-      border: 1px solid #1d3a5f;
-      border-radius: 10px;
-      padding: 20px;
-      font-family: monospace;
-      font-size: 0.9rem;
-      color: #00ff41;
-      min-height: 260px;
-    }
-    #terminal p { margin: 2px 0; }
-    #cmdrow { display: flex; gap: 6px; margin-top: 10px; align-items: center; }
-    #cmdrow span { color: #00ff41; font-family: monospace; }
-    #cmdinput {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #00ff41;
-      font-family: monospace;
-      font-size: 0.9rem;
-      flex: 1;
-    }
-  </style>
 </head>
 <body>
   <div class="background-grid"></div>
@@ -45,15 +21,34 @@
       <p class="hint" style="margin-top:10px;">hint: figure out where you are, then look for open ports.</p>
     </section>
 
-    <section class="card">
-      <div id="terminal">
-        <p>terminal ready. type 'help'</p>
-      </div>
-      <div id="cmdrow">
-        <span>user@ctf:~$</span>
-        <input id="cmdinput" type="text" autocomplete="off" spellcheck="false" placeholder="type a command..." />
-      </div>
+    <section class="card" id="vm-card" style="min-height:180px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
+      <p style="margin:0;color:#8dc4ff;font-family:monospace;">machine is offline</p>
+      <button onclick="bootVM()" id="vm-btn" style="background:#12345a;color:#8dc4ff;border:1px solid #1d3a5f;border-radius:8px;padding:12px 28px;font-family:monospace;font-size:1rem;cursor:pointer;letter-spacing:1px;">▶ Start Kali VM</button>
+      <p id="vm-status" style="display:none;margin:0;color:#00ff41;font-family:monospace;font-size:0.85rem;">booting kali linux... (~20 seconds)</p>
+      <div id="vm-frame" style="width:100%;display:none;"></div>
     </section>
+
+    <script>
+      function bootVM() {
+        document.getElementById('vm-btn').style.display = 'none';
+        document.getElementById('vm-status').style.display = 'block';
+        document.getElementById('vm-card').style.minHeight = '560px';
+
+        var iframe = document.createElement('iframe');
+        iframe.src = 'https://wild-cloud-6910.fly.dev';
+        iframe.width = '100%';
+        iframe.height = '520';
+        iframe.style.cssText = 'border:none;display:block;border-radius:10px;';
+        iframe.allow = 'clipboard-read; clipboard-write';
+        iframe.onload = function() {
+          document.getElementById('vm-status').style.display = 'none';
+          document.getElementById('vm-card').style.justifyContent = 'flex-start';
+          document.getElementById('vm-card').style.padding = '0';
+        };
+        document.getElementById('vm-frame').appendChild(iframe);
+        document.getElementById('vm-frame').style.display = 'block';
+      }
+    </script>
 
     <section class="card">
       <div class="submit-row">
@@ -69,64 +64,6 @@
   </main>
 
   <script>
-    var t = document.getElementById("terminal");
-    var input = document.getElementById("cmdinput");
-
-    input.addEventListener("keydown", function(e) {
-      if (e.key != "Enter") return;
-      var cmd = input.value.trim();
-      input.value = "";
-
-      t.innerHTML += "<p>user@ctf:~$ " + cmd + "</p>";
-
-      if (cmd == "help") {
-        t.innerHTML += "<p>  ip addr              show network info</p>";
-        t.innerHTML += "<p>  nmap &lt;ip&gt;            scan for open ports</p>";
-        t.innerHTML += "<p>  nc &lt;ip&gt; &lt;port&gt;       connect to a port</p>";
-        t.innerHTML += "<p>  clear                clear the screen</p>";
-
-      } else if (cmd == "clear") {
-        t.innerHTML = "";
-
-      } else if (cmd == "ip addr" || cmd == "ifconfig") {
-        t.innerHTML += "<p>1: lo    inet 127.0.0.1/8</p>";
-        t.innerHTML += "<p>2: eth0  inet 10.0.0.5/24</p>";
-        t.innerHTML += "<p>         gateway 10.0.0.1</p>";
-
-      } else if (cmd == "nmap 10.0.0.1") {
-        t.innerHTML += "<p>scanning...</p>";
-        setTimeout(function() {
-          t.innerHTML += "<p>PORT      STATE   SERVICE</p>";
-          t.innerHTML += "<p>21/tcp    closed  ftp</p>";
-          t.innerHTML += "<p>23/tcp    closed  telnet</p>";
-          t.innerHTML += "<p>25/tcp    closed  smtp</p>";
-          t.innerHTML += "<p>443/tcp   closed  https</p>";
-          t.innerHTML += "<p>1337/tcp  open    ???</p>";
-          t.innerHTML += "<p>3306/tcp  closed  mysql</p>";
-          t.innerHTML += "<p>8080/tcp  closed  http-alt</p>";
-          t.innerHTML += "<p>done.</p>";
-        }, 900);
-
-      } else if (cmd.startsWith("nc 10.0.0.1")) {
-        var port = cmd.split(" ")[2];
-        if (port == "1337") {
-          t.innerHTML += "<p>connecting...</p>";
-          setTimeout(function() {
-            t.innerHTML += "<p>FLAG{p0rt_kn0ck3r}</p>";
-            t.innerHTML += "<p>connection closed.</p>";
-          }, 600);
-        } else {
-          t.innerHTML += "<p>connect failed: port " + port + " refused</p>";
-        }
-
-      } else if (cmd.startsWith("nmap")) {
-        t.innerHTML += "<p>host unreachable.</p>";
-
-      } else {
-        t.innerHTML += "<p>command not found: " + cmd + "</p>";
-      }
-    });
-
     async function checkFlag() {
       var val = document.getElementById("netInput").value.trim();
       var res = document.getElementById("netResult");
