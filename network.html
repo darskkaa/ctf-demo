@@ -20,10 +20,9 @@
       <p>find it.</p>
       <p style="margin-top:14px;color:#8dc4ff;">hints</p>
       <ul style="margin:8px 0 0 0;padding-left:20px;line-height:2;">
-        <li>you have shell access. start by figuring out what machine you're on.</li>
-        <li>something is listening on a port, scan the local machine.</li>
-        <li><code style="color:#00ff41;">nmap</code> can scan any host, including the one you're already on.</li>
-        <li>once you find an open port, connect to it with <code style="color:#00ff41;">nc</code>.</li>
+        <li>you have shell access. something is running locally.</li>
+        <li>scan the machine you're on: <code style="color:#00ff41;">nmap localhost</code></li>
+        <li>once you find an open port, connect to it: <code style="color:#00ff41;">nc localhost &lt;port&gt;</code></li>
       </ul>
     </section>
 
