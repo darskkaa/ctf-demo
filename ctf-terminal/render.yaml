@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: ctf-kali
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    autoDeploy: false
