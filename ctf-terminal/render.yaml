@@ -2,6 +2,7 @@ services:
   - type: web
     name: ctf-kali
     runtime: docker
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./ctf-terminal/Dockerfile
+    dockerContext: ./ctf-terminal
     plan: free
     autoDeploy: false
