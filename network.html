@@ -28,13 +28,30 @@
     </section>
 
     <section class="card" id="vm-card" style="min-height:180px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
-      <p style="margin:0;font-family:monospace;font-size:0.8rem;"><span id="vm-dot" style="color:#ff4444;">●</span> <span id="vm-label" style="color:#aaa;">offline</span></p>
+      <p style="margin:0;font-family:monospace;font-size:0.8rem;"><span id="vm-dot" style="color:#ff4444;">●</span> <span id="vm-label" style="color:#aaa;">offline</span> <span id="vm-timer" style="color:#555;"></span></p>
       <button onclick="bootVM()" id="vm-btn" style="background:#12345a;color:#8dc4ff;border:1px solid #1d3a5f;border-radius:8px;padding:12px 28px;font-family:monospace;font-size:1rem;cursor:pointer;letter-spacing:1px;">▶ Start Kali VM</button>
       <p id="vm-status" style="display:none;margin:0;color:#00ff41;font-family:monospace;font-size:0.85rem;">booting kali linux... (~20 seconds)</p>
       <div id="vm-frame" style="width:100%;display:none;"></div>
     </section>
 
     <script>
+      var vmTimeout, vmCountdown;
+
+      function killVM() {
+        clearInterval(vmCountdown);
+        var frame = document.getElementById('vm-frame');
+        frame.innerHTML = '';
+        frame.style.display = 'none';
+        document.getElementById('vm-dot').style.color = '#ff4444';
+        document.getElementById('vm-label').textContent = 'offline';
+        document.getElementById('vm-label').style.color = '#aaa';
+        document.getElementById('vm-timer').textContent = '';
+        document.getElementById('vm-btn').style.display = 'inline-block';
+        document.getElementById('vm-card').style.minHeight = '180px';
+        document.getElementById('vm-card').style.justifyContent = 'center';
+        document.getElementById('vm-card').style.padding = '';
+      }
+
       function bootVM() {
         document.getElementById('vm-btn').style.display = 'none';
         document.getElementById('vm-status').style.display = 'block';
@@ -42,6 +59,14 @@
         document.getElementById('vm-label').textContent = 'online';
         document.getElementById('vm-label').style.color = '#00ff41';
         document.getElementById('vm-card').style.minHeight = '560px';
+
+        var secs = 120;
+        vmCountdown = setInterval(function() {
+          secs--;
+          var m = Math.floor(secs / 60), s = secs % 60;
+          document.getElementById('vm-timer').textContent = '(' + m + ':' + (s < 10 ? '0' : '') + s + ')';
+          if (secs <= 0) killVM();
+        }, 1000);
 
         var iframe = document.createElement('iframe');
         iframe.src = 'https://wild-cloud-6910.fly.dev';
