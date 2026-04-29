@@ -10,6 +10,7 @@
   <div class="background-grid"></div>
 
   <main class="container">
+    <!-- header section -->
     <section class="card hero">
       <p class="tag">NETWORK CHALLENGE</p>
       <h1>something's listening</h1>
@@ -27,6 +28,7 @@
       </ul>
     </section>
 
+    <!-- kali vm iframe -->
     <section class="card" id="vm-card" style="min-height:180px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
       <p style="margin:0;font-family:monospace;font-size:0.8rem;"><span id="vm-dot" style="color:#ff4444;">●</span> <span id="vm-label" style="color:#aaa;">offline</span> <span id="vm-timer" style="color:#555;"></span></p>
       <button onclick="bootVM()" id="vm-btn" style="background:#12345a;color:#8dc4ff;border:1px solid #1d3a5f;border-radius:8px;padding:12px 28px;font-family:monospace;font-size:1rem;cursor:pointer;letter-spacing:1px;">▶ Start Kali VM</button>
@@ -37,6 +39,7 @@
     <script>
       var vmTimeout, vmCountdown;
 
+      // handle vm boot
       function killVM() {
         clearInterval(vmCountdown);
         var frame = document.getElementById('vm-frame');
@@ -98,6 +101,7 @@
   </main>
 
   <script>
+    // check the flag
     async function checkFlag() {
       var val = document.getElementById("netInput").value.trim();
       var res = document.getElementById("netResult");

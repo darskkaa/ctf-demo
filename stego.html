@@ -10,6 +10,7 @@
   <div class="background-grid"></div>
 
   <main class="container">
+    <!-- title card -->
     <section class="card hero">
       <p class="tag">STEGANOGRAPHY CHALLENGE</p>
       <h1>something's hiding in here</h1>
@@ -19,6 +20,7 @@
     </section>
 
     <section class="card">
+      <!-- challenge image -->
       <img src="fgcu_logo.png" alt="FGCU Logo" style="max-width: 100%; border-radius: 8px;" />
     </section>
 
@@ -41,6 +43,7 @@
   </main>
 
   <script>
+    // flag verification logic
     async function checkStegoFlag() {
       const input = document.getElementById("stegoInput").value.trim();
       const result = document.getElementById("stegoResult");

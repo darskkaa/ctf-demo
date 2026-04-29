@@ -1,4 +1,5 @@
 #!/bin/bash
+# setup the env
 hostname target-01
 
 cat > /etc/motd << 'MOTD'
@@ -7,6 +8,7 @@ Last login: Mon Apr 28 03:12:44 2026 from 10.0.0.12
 WARNING: all sessions are logged and monitored.
 MOTD
 
+# create folders
 mkdir -p /home/admin
 cat > /home/admin/notes.txt << 'NOTE'
 moved the listener off the default port.
@@ -21,5 +23,6 @@ target=/var/backups
 token=open_sesame
 CONF
 
+# run flag server
 python3 /flag_server.py &
 ttyd --port "${PORT:-8080}" --writable bash
