@@ -30,7 +30,7 @@
     <section class="card" id="vm-card" style="min-height:180px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;">
       <p style="margin:0;font-family:monospace;font-size:0.8rem;"><span id="vm-dot" style="color:#ff4444;">●</span> <span id="vm-label" style="color:#aaa;">offline</span> <span id="vm-timer" style="color:#555;"></span></p>
       <button onclick="bootVM()" id="vm-btn" style="background:#12345a;color:#8dc4ff;border:1px solid #1d3a5f;border-radius:8px;padding:12px 28px;font-family:monospace;font-size:1rem;cursor:pointer;letter-spacing:1px;">▶ Start Kali VM</button>
-      <p id="vm-status" style="display:none;margin:0;color:#00ff41;font-family:monospace;font-size:0.85rem;">booting kali linux... (~20 seconds)</p>
+      <p id="vm-status" style="display:none;margin:0;color:#00ff41;font-family:monospace;font-size:0.85rem;">booting kali linux... (~30 seconds)</p>
       <div id="vm-frame" style="width:100%;display:none;"></div>
     </section>
 
@@ -60,7 +60,7 @@
         document.getElementById('vm-label').style.color = '#00ff41';
         document.getElementById('vm-card').style.minHeight = '560px';
 
-        var secs = 120;
+        var secs = 90;
         vmCountdown = setInterval(function() {
           secs--;
           var m = Math.floor(secs / 60), s = secs % 60;
