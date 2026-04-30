@@ -106,7 +106,7 @@
       var val = document.getElementById("netInput").value.trim();
       var res = document.getElementById("netResult");
       var hash = await sha256(val);
-      var correct = "fa4280e9d6cf386283373904dbff3878d7cb25470278df44cc1e0354f4783612";
+      var correct = "5cd99f0a1280fb83d82eef87b76b8a2e6df47533162a9170f032b431b994bc62";
       if (hash == correct) {
         res.textContent = "Correct! You found the open port.";
         res.style.color = "lightgreen";
